@@ -29,34 +29,57 @@ namespace FindFile
         private readonly List<MyFolder> _folders;
         private readonly DirectoryInfo _directory;
         private readonly List<MyFile> _files;
+        private readonly TreeNode _node;
 
         public MyFolder(string path, string nameFileMask, ref List<MyFile> files, ref TreeView tree)
         {
             _directory = new DirectoryInfo(path);
-            tree.Nodes.Add(_directory.Name);
             _files = MyFile.FileHarvester(_directory.GetFiles(), nameFileMask).ToList();
-
-            for(int i =0; i < _files.Count; i++)
-            {
-                tree.Nodes.Add(_files[i].Name);
-            }
-
-            _folders = FoldersHarvester(_directory.GetDirectories(), nameFileMask, ref files, ref tree).ToList();
             files.AddRange(_files);
+            _folders = FoldersHarvester(_directory.GetDirectories(), nameFileMask, ref files, ref tree).ToList();
+
+            tree.Nodes.Add(new TreeNode(Name,
+                _files.Select(n => n.Node).
+                Union(_folders.
+                Select(n => n.Node)).ToArray()));
+
+            for(int i = 0; i<tree.Nodes.Count; i++)
+            {
+                tree.Nodes[i].Name = tree.Nodes[i].Text;
+            }
+        }
+
+        public string Name
+        {
+            get => _directory.Name;
+        }
+
+        public string FullName
+        {
+            get => _directory.FullName;
+        }
+        public TreeNode Node
+        {
+            get => _node;
         }
 
         private MyFolder(DirectoryInfo directory, string nameFileMask, ref List<MyFile> files, ref TreeView tree)
         {
             _directory = directory;
             _files = MyFile.FileHarvester(_directory.GetFiles(), nameFileMask).ToList();
-
-            for (int i = 0; i < _files.Count; i++)
-            {
-                tree.Nodes.Add(_files[i].Name);
-            }
-
             _folders = FoldersHarvester(_directory.GetDirectories(), nameFileMask, ref files, ref tree).ToList();
             files.AddRange(_files);
+
+            _node = new TreeNode(
+                Name,
+                _files.Select(n => n.Node).
+                Union(_folders.
+                Select(n => n.Node)).ToArray());
+
+            for (int i = 0; i < _node.Nodes.Count; i++)
+            {
+                _node.Nodes[i].Name = _node.Nodes[i].Text;
+            }
         }
     }
 }

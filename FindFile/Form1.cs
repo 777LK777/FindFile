@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FindFileLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace FindFile
     {
         private string _folderPath;
         private bool _searchOver;
+        private SearchResults _search;
 
         public Form1()
         {
@@ -23,8 +25,6 @@ namespace FindFile
             PathTB.Text = _folderPath;
 
             _searchOver = false;
-
-            //treeFolders;
         }
 
         private void InFoolderBtn_Click(object sender, EventArgs e)
@@ -48,6 +48,19 @@ namespace FindFile
             {
                 _searchOver = true;
                 FindStartStopBtn.Text = "Стоп";
+
+                _search = new SearchResults(_folderPath, fileNameMaskTB.Text, null, (object _sender, ReadFileEventArgs _e) =>
+                {
+                    if (_e.MatchesFound)
+                    {
+                        MyFile mf = _sender as MyFile;
+                        MessageBox.Show(mf.FullName);
+                    }
+                });
+
+                
+                
+                //MessageBox.Show(treeFolders.Nodes[0].Nodes.Count.ToString());
             }
             else
             {

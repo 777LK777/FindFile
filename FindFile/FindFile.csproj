@@ -79,6 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FindFileLib\FindFileLib.csproj">
+      <Project>{48482FC1-78C9-4512-9CCD-8644DD52F6A6}</Project>
+      <Name>FindFileLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

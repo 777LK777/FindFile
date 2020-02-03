@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FindFileLib
 {
@@ -24,6 +25,7 @@ namespace FindFileLib
         }
 
         private readonly FileInfo _file;
+        private readonly TreeNode _node;
 
         public event EventHandler OnReadStart;
         public event EventHandler<ReadFileEventArgs> OnReadFinish;
@@ -31,11 +33,23 @@ namespace FindFileLib
         private MyFile(FileInfo file)
         {
             _file = file;
+            _node = new TreeNode(_file.Name);
+            _node.Name = _file.Name;
         }
 
         public string Name
         {
             get => _file.Name;
+        }
+
+        public string FullName
+        {
+            get => _file.FullName;
+        }
+
+        public TreeNode Node
+        {
+            get => _node;
         }
 
         public void ReadFile(string keySymbols)

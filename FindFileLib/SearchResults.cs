@@ -86,6 +86,12 @@ namespace FindFileLib
             }
         }
 
-
+        public TreeView Tree
+        {
+            get
+            {
+                return _tree;
+            }
+        }
     }
 }

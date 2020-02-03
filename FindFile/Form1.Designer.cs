@@ -34,8 +34,8 @@
             this.KeySymbLbl = new System.Windows.Forms.Label();
             this.PathTB = new System.Windows.Forms.TextBox();
             this.treeFolders = new System.Windows.Forms.TreeView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.fileNameMaskTB = new System.Windows.Forms.TextBox();
+            this.keyWordTB = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // InFoolderBtn
@@ -97,27 +97,27 @@
             this.treeFolders.Size = new System.Drawing.Size(408, 385);
             this.treeFolders.TabIndex = 5;
             // 
-            // textBox1
+            // fileNameMaskTB
             // 
-            this.textBox1.Location = new System.Drawing.Point(129, 38);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(202, 22);
-            this.textBox1.TabIndex = 6;
+            this.fileNameMaskTB.Location = new System.Drawing.Point(129, 38);
+            this.fileNameMaskTB.Name = "fileNameMaskTB";
+            this.fileNameMaskTB.Size = new System.Drawing.Size(202, 22);
+            this.fileNameMaskTB.TabIndex = 6;
             // 
-            // textBox2
+            // keyWordTB
             // 
-            this.textBox2.Location = new System.Drawing.Point(129, 67);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(201, 22);
-            this.textBox2.TabIndex = 7;
+            this.keyWordTB.Location = new System.Drawing.Point(129, 67);
+            this.keyWordTB.Name = "keyWordTB";
+            this.keyWordTB.Size = new System.Drawing.Size(201, 22);
+            this.keyWordTB.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 492);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.keyWordTB);
+            this.Controls.Add(this.fileNameMaskTB);
             this.Controls.Add(this.treeFolders);
             this.Controls.Add(this.PathTB);
             this.Controls.Add(this.KeySymbLbl);
@@ -141,8 +141,8 @@
         private System.Windows.Forms.Label KeySymbLbl;
         private System.Windows.Forms.TextBox PathTB;
         private System.Windows.Forms.TreeView treeFolders;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox fileNameMaskTB;
+        private System.Windows.Forms.TextBox keyWordTB;
     }
 }
 
