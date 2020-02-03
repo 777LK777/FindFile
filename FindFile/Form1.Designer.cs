@@ -28,13 +28,121 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.InFoolderBtn = new System.Windows.Forms.Button();
+            this.FileNameLbl = new System.Windows.Forms.Label();
+            this.FindStartStopBtn = new System.Windows.Forms.Button();
+            this.KeySymbLbl = new System.Windows.Forms.Label();
+            this.PathTB = new System.Windows.Forms.TextBox();
+            this.treeFolders = new System.Windows.Forms.TreeView();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // InFoolderBtn
+            // 
+            this.InFoolderBtn.Location = new System.Drawing.Point(15, 9);
+            this.InFoolderBtn.Name = "InFoolderBtn";
+            this.InFoolderBtn.Size = new System.Drawing.Size(75, 24);
+            this.InFoolderBtn.TabIndex = 0;
+            this.InFoolderBtn.Text = "Папка";
+            this.InFoolderBtn.UseVisualStyleBackColor = true;
+            this.InFoolderBtn.Click += new System.EventHandler(this.InFoolderBtn_Click);
+            // 
+            // FileNameLbl
+            // 
+            this.FileNameLbl.AutoSize = true;
+            this.FileNameLbl.Location = new System.Drawing.Point(12, 39);
+            this.FileNameLbl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.FileNameLbl.Name = "FileNameLbl";
+            this.FileNameLbl.Size = new System.Drawing.Size(86, 17);
+            this.FileNameLbl.TabIndex = 1;
+            this.FileNameLbl.Text = "Имя файла:";
+            // 
+            // FindStartStopBtn
+            // 
+            this.FindStartStopBtn.Location = new System.Drawing.Point(337, 9);
+            this.FindStartStopBtn.Name = "FindStartStopBtn";
+            this.FindStartStopBtn.Size = new System.Drawing.Size(86, 78);
+            this.FindStartStopBtn.TabIndex = 2;
+            this.FindStartStopBtn.Text = "Поиск";
+            this.FindStartStopBtn.UseVisualStyleBackColor = true;
+            this.FindStartStopBtn.Click += new System.EventHandler(this.FindStartStopBtn_Click);
+            // 
+            // KeySymbLbl
+            // 
+            this.KeySymbLbl.AutoSize = true;
+            this.KeySymbLbl.Location = new System.Drawing.Point(12, 70);
+            this.KeySymbLbl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.KeySymbLbl.Name = "KeySymbLbl";
+            this.KeySymbLbl.Size = new System.Drawing.Size(111, 17);
+            this.KeySymbLbl.TabIndex = 3;
+            this.KeySymbLbl.Text = "Найти в файле:";
+            // 
+            // PathTB
+            // 
+            this.PathTB.CausesValidation = false;
+            this.PathTB.Enabled = false;
+            this.PathTB.Location = new System.Drawing.Point(129, 9);
+            this.PathTB.Name = "PathTB";
+            this.PathTB.Size = new System.Drawing.Size(202, 22);
+            this.PathTB.TabIndex = 4;
+            // 
+            // treeFolders
+            // 
+            this.treeFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeFolders.Location = new System.Drawing.Point(15, 95);
+            this.treeFolders.Name = "treeFolders";
+            this.treeFolders.Size = new System.Drawing.Size(408, 385);
+            this.treeFolders.TabIndex = 5;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(129, 38);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(202, 22);
+            this.textBox1.TabIndex = 6;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(129, 67);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(201, 22);
+            this.textBox2.TabIndex = 7;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(438, 492);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.treeFolders);
+            this.Controls.Add(this.PathTB);
+            this.Controls.Add(this.KeySymbLbl);
+            this.Controls.Add(this.FindStartStopBtn);
+            this.Controls.Add(this.FileNameLbl);
+            this.Controls.Add(this.InFoolderBtn);
+            this.MaximumSize = new System.Drawing.Size(456, 900);
+            this.MinimumSize = new System.Drawing.Size(456, 539);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button InFoolderBtn;
+        private System.Windows.Forms.Label FileNameLbl;
+        private System.Windows.Forms.Button FindStartStopBtn;
+        private System.Windows.Forms.Label KeySymbLbl;
+        private System.Windows.Forms.TextBox PathTB;
+        private System.Windows.Forms.TreeView treeFolders;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
