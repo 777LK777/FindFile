@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace FindFileLib
 {
@@ -34,7 +35,7 @@ namespace FindFileLib
         {
             _file = file;
             _node = new TreeNode(_file.Name);
-            _node.Name = _file.Name;
+            _node.ImageKey = "\\file.jpg";
         }
 
         public string Name
@@ -50,6 +51,12 @@ namespace FindFileLib
         public TreeNode Node
         {
             get => _node;
+        }
+
+        public Color BackgroundColor
+        {
+            get => _node.BackColor;
+            set => _node.BackColor = value;
         }
 
         public void ReadFile(string keySymbols)

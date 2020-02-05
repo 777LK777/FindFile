@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -49,18 +50,36 @@ namespace FindFile
                 _searchOver = true;
                 FindStartStopBtn.Text = "Стоп";
 
-                _search = new SearchResults(_folderPath, fileNameMaskTB.Text, null, (object _sender, ReadFileEventArgs _e) =>
-                {
-                    if (_e.MatchesFound)
+                treeFolders.BeginUpdate();
+
+                _search = new SearchResults(_folderPath, fileNameMaskTB.Text,
+                    (object _sender, EventArgs _e) => 
                     {
                         MyFile mf = _sender as MyFile;
-                        MessageBox.Show(mf.FullName);
-                    }
-                });
+                        mf.BackgroundColor = Color.Yellow;
+                        Thread.Sleep(200);
+                    },
+                (object _sender, ReadFileEventArgs _e) =>
+                {
+                    MyFile mf = _sender as MyFile;
 
-                
-                
-                //MessageBox.Show(treeFolders.Nodes[0].Nodes.Count.ToString());
+                    if (_e.MatchesFound)
+                    {
+                        MessageBox.Show(mf.FullName);
+                        mf.BackgroundColor = Color.Green;
+                    }
+                    else
+                        mf.BackgroundColor = Color.Red;
+
+
+                    Thread.Sleep(200);
+
+                }, ref treeFolders);
+
+                treeFolders.EndUpdate();
+                treeFolders.Refresh();
+
+                _search.FindMatches(keyWordTB.Text.ToLower());
             }
             else
             {

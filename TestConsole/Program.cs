@@ -29,18 +29,18 @@ namespace TestConsole
                 }
             }
 
-            var search = new SearchResults(s, ".txt", null, SetColour);            
+            //var search = new SearchResults(s, ".txt", null, SetColour);            
 
-            search.FindMatches(@"ваиваи");
+            //search.FindMatches(@"ваиваи");
 
-            for (int i = 0; i < search.Tree.Nodes[0].Nodes.Count; i++)
-            {
-                Console.WriteLine(search.Tree.Nodes[0].Nodes[i].Name);
-            }
+            //for (int i = 0; i < search.Tree.Nodes[0].Nodes.Count; i++)
+            //{
+            //    Console.WriteLine(search.Tree.Nodes[0].Nodes[i].Name);
+            //}
 
-            Console.WriteLine($"\nCount: {search.Files.Count}");
+            //Console.WriteLine($"\nCount: {search.Files.Count}");
 
-            Console.WriteLine(search.Tree.Nodes.Count);
+            //Console.WriteLine(search.Tree.Nodes.Count);
 
 
             Console.ReadKey();

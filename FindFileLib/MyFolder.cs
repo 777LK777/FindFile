@@ -75,11 +75,6 @@ namespace FindFile
                 _files.Select(n => n.Node).
                 Union(_folders.
                 Select(n => n.Node)).ToArray());
-
-            for (int i = 0; i < _node.Nodes.Count; i++)
-            {
-                _node.Nodes[i].Name = _node.Nodes[i].Text;
-            }
         }
     }
 }
