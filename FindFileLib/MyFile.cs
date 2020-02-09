@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading;
 
 namespace FindFileLib
 {
@@ -27,15 +28,16 @@ namespace FindFileLib
 
         private readonly FileInfo _file;
         private readonly TreeNode _node;
+        private bool _wasRead;
 
-        public event EventHandler OnReadStart;
-        public event EventHandler<ReadFileEventArgs> OnReadFinish;
+        public event EventHandler ReadStart;
+        public event EventHandler<ReadFileEventArgs> ReadFinish;
 
         private MyFile(FileInfo file)
         {
             _file = file;
             _node = new TreeNode(_file.Name);
-            _node.ImageKey = "\\file.jpg";
+            _wasRead = false;
         }
 
         public string Name
@@ -59,9 +61,27 @@ namespace FindFileLib
             set => _node.BackColor = value;
         }
 
+        public bool WasRead
+        {
+            get
+            {
+                return _wasRead;
+            }
+        }
+
+        void OnReadStart()
+        {
+            Volatile.Read(ref ReadStart)?.Invoke(this, null);
+        }
+
+        void OnReadFinish(ReadFileEventArgs e)
+        {
+            Volatile.Read(ref ReadFinish)?.Invoke(this, e);
+        }
+
         public void ReadFile(string keySymbols)
         {
-            OnReadStart?.Invoke(this, null);
+            OnReadStart();
 
             bool matchesFound = false;
 
@@ -71,9 +91,10 @@ namespace FindFileLib
                 string ks = keySymbols.ToLower();
 
                 matchesFound = s.Contains(ks);
+                _wasRead = true;
             }
 
-            OnReadFinish?.Invoke(this, new ReadFileEventArgs(matchesFound));
+            OnReadFinish(new ReadFileEventArgs(matchesFound));
         }
     }
 }

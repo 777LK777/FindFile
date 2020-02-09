@@ -19,7 +19,7 @@ namespace FindFileLib
             _matchesFound = matchesFound;
         }
 
-        public bool MatchesFound
+        public bool MatchWasFound
         {
             get => _matchesFound;
         }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.InFoolderBtn = new System.Windows.Forms.Button();
             this.FileNameLbl = new System.Windows.Forms.Label();
             this.FindStartStopBtn = new System.Windows.Forms.Button();
@@ -36,6 +37,14 @@
             this.treeFolders = new System.Windows.Forms.TreeView();
             this.fileNameMaskTB = new System.Windows.Forms.TextBox();
             this.keyWordTB = new System.Windows.Forms.TextBox();
+            this.searcMenu = new System.Windows.Forms.GroupBox();
+            this.PauseFindBtn = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.filesCounterLbl = new System.Windows.Forms.Label();
+            this.fileNowLBL = new System.Windows.Forms.Label();
+            this.progressSearch = new System.Windows.Forms.ProgressBar();
+            this.timerPaint = new System.Windows.Forms.Timer(this.components);
+            this.searcMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // InFoolderBtn
@@ -94,7 +103,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeFolders.Location = new System.Drawing.Point(15, 95);
             this.treeFolders.Name = "treeFolders";
-            this.treeFolders.Size = new System.Drawing.Size(408, 385);
+            this.treeFolders.Size = new System.Drawing.Size(408, 284);
             this.treeFolders.TabIndex = 5;
             // 
             // fileNameMaskTB
@@ -111,11 +120,84 @@
             this.keyWordTB.Size = new System.Drawing.Size(201, 22);
             this.keyWordTB.TabIndex = 7;
             // 
+            // searcMenu
+            // 
+            this.searcMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.searcMenu.Controls.Add(this.PauseFindBtn);
+            this.searcMenu.Controls.Add(this.label3);
+            this.searcMenu.Controls.Add(this.filesCounterLbl);
+            this.searcMenu.Controls.Add(this.fileNowLBL);
+            this.searcMenu.Controls.Add(this.progressSearch);
+            this.searcMenu.Location = new System.Drawing.Point(12, 385);
+            this.searcMenu.Name = "searcMenu";
+            this.searcMenu.Size = new System.Drawing.Size(411, 95);
+            this.searcMenu.TabIndex = 8;
+            this.searcMenu.TabStop = false;
+            this.searcMenu.Text = "Меню поиска";
+            this.searcMenu.Visible = false;
+            // 
+            // PauseFindBtn
+            // 
+            this.PauseFindBtn.Location = new System.Drawing.Point(330, 16);
+            this.PauseFindBtn.Name = "PauseFindBtn";
+            this.PauseFindBtn.Size = new System.Drawing.Size(75, 23);
+            this.PauseFindBtn.TabIndex = 4;
+            this.PauseFindBtn.Text = "Пауза";
+            this.PauseFindBtn.UseVisualStyleBackColor = true;
+            this.PauseFindBtn.Click += new System.EventHandler(this.PauseFindBtn_Click);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(341, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 17);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "00:00:00";
+            // 
+            // filesCounterLbl
+            // 
+            this.filesCounterLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.filesCounterLbl.AutoSize = true;
+            this.filesCounterLbl.BackColor = System.Drawing.Color.Transparent;
+            this.filesCounterLbl.Location = new System.Drawing.Point(183, 69);
+            this.filesCounterLbl.Name = "filesCounterLbl";
+            this.filesCounterLbl.Size = new System.Drawing.Size(28, 17);
+            this.filesCounterLbl.TabIndex = 2;
+            this.filesCounterLbl.Text = "0/0";
+            // 
+            // fileNowLBL
+            // 
+            this.fileNowLBL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.fileNowLBL.AutoSize = true;
+            this.fileNowLBL.Location = new System.Drawing.Point(7, 43);
+            this.fileNowLBL.Name = "fileNowLBL";
+            this.fileNowLBL.Size = new System.Drawing.Size(152, 17);
+            this.fileNowLBL.TabIndex = 1;
+            this.fileNowLBL.Text = "Расположение файла";
+            // 
+            // progressSearch
+            // 
+            this.progressSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressSearch.Location = new System.Drawing.Point(7, 66);
+            this.progressSearch.Name = "progressSearch";
+            this.progressSearch.Size = new System.Drawing.Size(398, 23);
+            this.progressSearch.TabIndex = 0;
+            // 
+            // timerPaint
+            // 
+            this.timerPaint.Tick += new System.EventHandler(this.timerPaint_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(438, 492);
+            this.Controls.Add(this.searcMenu);
             this.Controls.Add(this.keyWordTB);
             this.Controls.Add(this.fileNameMaskTB);
             this.Controls.Add(this.treeFolders);
@@ -128,6 +210,8 @@
             this.MinimumSize = new System.Drawing.Size(456, 539);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.searcMenu.ResumeLayout(false);
+            this.searcMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,6 +227,13 @@
         private System.Windows.Forms.TreeView treeFolders;
         private System.Windows.Forms.TextBox fileNameMaskTB;
         private System.Windows.Forms.TextBox keyWordTB;
+        private System.Windows.Forms.GroupBox searcMenu;
+        private System.Windows.Forms.Button PauseFindBtn;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label filesCounterLbl;
+        private System.Windows.Forms.Label fileNowLBL;
+        private System.Windows.Forms.ProgressBar progressSearch;
+        private System.Windows.Forms.Timer timerPaint;
     }
 }
 
