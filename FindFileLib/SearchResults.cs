@@ -20,6 +20,9 @@ namespace FindFileLib
 
         public event EventHandler FindComplete;
 
+        /// <summary>
+        /// Время прошедшее с начала поиска файлов
+        /// </summary>
         public TimeSpan SpentTime
         {
             get
@@ -40,10 +43,14 @@ namespace FindFileLib
 
         public SearchResults(string rootPath, string nameMask, ref TreeView tree, EventHandler startSearch, EventHandler<ReadFileEventArgs> finishSearch)
         {
-            _files = new List<MyFile>();
+            _findTime = new Stopwatch();
+            _findTime.Start();
+
+            _files = new List<MyFile>();            
             _root = new MyFolder(rootPath, nameMask, ref _files, ref tree);
             _lookFor = true;
             _stopFind = false;
+            
 
             foreach (var i in _files)
             {
@@ -57,11 +64,9 @@ namespace FindFileLib
         /// </summary>
         /// <param name="keyWord">Ключевое слово(фраза)</param>
         async public void FindMatches(string keyWord)
-        {
-            _findTime = new Stopwatch();
+        {            
             await Task.Run(() =>
             {
-                _findTime.Start();
                 for (int i = 0; i < _files.Count; i++)
                 {
                     // Петля
@@ -87,7 +92,6 @@ namespace FindFileLib
                     _files[i].ReadFile(keyWord);
                 }
                 _findTime.Stop();
-
                 OnFindComplete();
             });            
         }
@@ -131,6 +135,7 @@ namespace FindFileLib
         public void StopFind()
         {
             _stopFind = true;
+            _findTime.Reset();            
         }
     }
 }

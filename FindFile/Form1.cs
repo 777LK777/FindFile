@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -18,20 +19,40 @@ namespace FindFile
         private string _folderPath;
         private bool _searchOver;
         private SearchResults _search;
+        private const string PATH_SAVE_DATA = "\\save.txt";
 
         public Form1()
         {
             InitializeComponent();
 
-            _folderPath = "Выберите папку...";
-            PathTB.Text = _folderPath;
+            InputData data = LoadDataManager.LoadData<InputData>(PATH_SAVE_DATA);
+            if(data != null)
+            {
+                PathTB.Text = data.Path;
+                _folderPath = data.Path;
+                fileNameMaskTB.Text = data.FileName;
+                keyWordTB.Text = data.KeyWord;
+            }
+            else
+            {
+                _folderPath = "Выберите папку...";
+                PathTB.Text = _folderPath;
+            }
+
+            TimerPaint.Interval = 100;            
 
             _searchOver = false;
         }
 
-        
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(PathTB.Text != null && fileNameMaskTB.Text != null && keyWordTB.Text != null)
+                LoadDataManager.UploadData(new InputData(PathTB.Text, fileNameMaskTB.Text, keyWordTB.Text), PATH_SAVE_DATA);
+        }
 
-        
+
+
+
 
         private void ProgressBarUp()
         {
@@ -83,6 +104,28 @@ namespace FindFile
                 filesCounterLbl.Text = text;
         }
 
+        private void SetTimerLabel(string text)
+        {
+            if (timerLbl.InvokeRequired)
+            {
+                timerLbl.Invoke((Action)(() => timerLbl.Text = text));
+            }
+            else
+                timerLbl.Text = text;
+        }
+
+        private void SetFileNowLabel(string text)
+        {
+            if (fileNowLBL.InvokeRequired)
+            {
+                fileNowLBL.Invoke((Action)(() => fileNowLBL.Text = text));
+            }
+            else
+                fileNowLBL.Text = text;
+        }
+
+
+
 
         private string FilesCount()
         {
@@ -109,10 +152,13 @@ namespace FindFile
         }
 
 
+
+
         private void FindStartStopBtn_Click(object sender, EventArgs e)
         {
             if (!_searchOver && keyWordTB.Text != "" && fileNameMaskTB.Text != "" && PathTB.Text != "Выберите папку...")
             {
+                TimerPaint.Start();
                 _searchOver = true;
                 searcMenu.Visible = true;
 
@@ -163,12 +209,13 @@ namespace FindFile
             }
             else
             {
+                TimerPaint.Stop();
+                progressSearch.Value = 0;
                 _search.StopFind();
                 _searchOver = false;
-                searcMenu.Visible = true;
+                searcMenu.Visible = false;
                 FindStartStopBtn.Text = "Поиск";
-                fileNameMaskTB.Text = "";
-                keyWordTB.Text = "";
+                treeFolders = new TreeView();
             }
         }
 
@@ -191,6 +238,10 @@ namespace FindFile
         {
             ChangeFileNowName(string.Empty);
             SearchMenuVisible(false);
+            TimerPaint.Stop();
+            SetTimerLabel("00:00:00");
+            SetFileNowLabel("Расположение файла");
+
             SetTextStartBtn("Поиск");
             MessageBox.Show("GOTOVO!");
         }
@@ -217,7 +268,10 @@ namespace FindFile
 
         private void timerPaint_Tick(object sender, EventArgs e)
         {
-
+            timerLbl.Text = _search.SpentTime.Minutes.ToString() + ":"
+                + _search.SpentTime.Seconds.ToString()
+                + ":" + _search.SpentTime.Milliseconds.ToString();
         }
+
     }
 }

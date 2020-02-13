@@ -39,11 +39,11 @@
             this.keyWordTB = new System.Windows.Forms.TextBox();
             this.searcMenu = new System.Windows.Forms.GroupBox();
             this.PauseFindBtn = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.timerLbl = new System.Windows.Forms.Label();
             this.filesCounterLbl = new System.Windows.Forms.Label();
             this.fileNowLBL = new System.Windows.Forms.Label();
             this.progressSearch = new System.Windows.Forms.ProgressBar();
-            this.timerPaint = new System.Windows.Forms.Timer(this.components);
+            this.TimerPaint = new System.Windows.Forms.Timer(this.components);
             this.searcMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,7 +125,7 @@
             this.searcMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.searcMenu.Controls.Add(this.PauseFindBtn);
-            this.searcMenu.Controls.Add(this.label3);
+            this.searcMenu.Controls.Add(this.timerLbl);
             this.searcMenu.Controls.Add(this.filesCounterLbl);
             this.searcMenu.Controls.Add(this.fileNowLBL);
             this.searcMenu.Controls.Add(this.progressSearch);
@@ -139,23 +139,23 @@
             // 
             // PauseFindBtn
             // 
-            this.PauseFindBtn.Location = new System.Drawing.Point(330, 16);
+            this.PauseFindBtn.Location = new System.Drawing.Point(295, 16);
             this.PauseFindBtn.Name = "PauseFindBtn";
-            this.PauseFindBtn.Size = new System.Drawing.Size(75, 23);
+            this.PauseFindBtn.Size = new System.Drawing.Size(110, 23);
             this.PauseFindBtn.TabIndex = 4;
             this.PauseFindBtn.Text = "Пауза";
             this.PauseFindBtn.UseVisualStyleBackColor = true;
             this.PauseFindBtn.Click += new System.EventHandler(this.PauseFindBtn_Click);
             // 
-            // label3
+            // timerLbl
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(341, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 17);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "00:00:00";
+            this.timerLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.timerLbl.AutoSize = true;
+            this.timerLbl.Location = new System.Drawing.Point(341, 43);
+            this.timerLbl.Name = "timerLbl";
+            this.timerLbl.Size = new System.Drawing.Size(64, 17);
+            this.timerLbl.TabIndex = 3;
+            this.timerLbl.Text = "00:00:00";
             // 
             // filesCounterLbl
             // 
@@ -188,9 +188,9 @@
             this.progressSearch.Size = new System.Drawing.Size(398, 23);
             this.progressSearch.TabIndex = 0;
             // 
-            // timerPaint
+            // TimerPaint
             // 
-            this.timerPaint.Tick += new System.EventHandler(this.timerPaint_Tick);
+            this.TimerPaint.Tick += new System.EventHandler(this.timerPaint_Tick);
             // 
             // Form1
             // 
@@ -209,7 +209,8 @@
             this.MaximumSize = new System.Drawing.Size(456, 900);
             this.MinimumSize = new System.Drawing.Size(456, 539);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "FIND FILE";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.searcMenu.ResumeLayout(false);
             this.searcMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -229,11 +230,11 @@
         private System.Windows.Forms.TextBox keyWordTB;
         private System.Windows.Forms.GroupBox searcMenu;
         private System.Windows.Forms.Button PauseFindBtn;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label timerLbl;
         private System.Windows.Forms.Label filesCounterLbl;
         private System.Windows.Forms.Label fileNowLBL;
         private System.Windows.Forms.ProgressBar progressSearch;
-        private System.Windows.Forms.Timer timerPaint;
+        private System.Windows.Forms.Timer TimerPaint;
     }
 }
 
