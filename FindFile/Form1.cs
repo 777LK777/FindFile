@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,9 +23,10 @@ namespace FindFile
         private SearchResults _search;
         private const string PATH_SAVE_DATA = "\\save.txt";
 
-        public Form1()
+        public Form1() : base()
         {
             InitializeComponent();
+            DoubleBuffered = true;
 
             InputData data = LoadDataManager.LoadData<InputData>(PATH_SAVE_DATA);
             if(data != null)
@@ -151,7 +154,15 @@ namespace FindFile
                 return fullPath;
         }
 
-
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = 0x02000000;
+                return cp;
+            }
+        }
 
 
         private void FindStartStopBtn_Click(object sender, EventArgs e)
@@ -163,6 +174,12 @@ namespace FindFile
                 searcMenu.Visible = true;
 
                 FindStartStopBtn.Text = "Стоп";
+
+                Type treeType = typeof(TreeView);
+
+                PropertyInfo doubleBuffered = treeType.GetProperty("DoubleBuffered", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic);
+
+                doubleBuffered.SetValue(treeFolders, true);
 
                 _search = new SearchResults(_folderPath, fileNameMaskTB.Text, ref treeFolders,
                     (object _sender, EventArgs _e) =>
@@ -268,10 +285,32 @@ namespace FindFile
 
         private void timerPaint_Tick(object sender, EventArgs e)
         {
-            timerLbl.Text = _search.SpentTime.Minutes.ToString() + ":"
+            if(_search != null)
+                timerLbl.Text = _search.SpentTime.Minutes.ToString() + ":"
                 + _search.SpentTime.Seconds.ToString()
                 + ":" + _search.SpentTime.Milliseconds.ToString();
         }
 
+    }
+
+
+
+
+
+
+    class BufferedTreeView : TreeView
+    {
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            SendMessage(Handle, TVM_SETEXTENDEDSTYLE, (IntPtr)TVS_EX_DOUBLEBUFFER, (IntPtr)TVS_EX_DOUBLEBUFFER);
+            base.OnHandleCreated(e);
+        }
+
+        // Pinvoke:
+        private const int TVM_SETEXTENDEDSTYLE = 0x1100 + 44;
+        private const int TVM_GETEXTENDEDSTYLE = 0x1100 + 45;
+        private const int TVS_EX_DOUBLEBUFFER = 0x0004;
+        [DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
     }
 }

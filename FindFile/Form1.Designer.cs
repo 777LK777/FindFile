@@ -34,7 +34,9 @@
             this.FindStartStopBtn = new System.Windows.Forms.Button();
             this.KeySymbLbl = new System.Windows.Forms.Label();
             this.PathTB = new System.Windows.Forms.TextBox();
-            this.treeFolders = new System.Windows.Forms.TreeView();
+
+            this.treeFolders = new BufferedTreeView();
+
             this.fileNameMaskTB = new System.Windows.Forms.TextBox();
             this.keyWordTB = new System.Windows.Forms.TextBox();
             this.searcMenu = new System.Windows.Forms.GroupBox();

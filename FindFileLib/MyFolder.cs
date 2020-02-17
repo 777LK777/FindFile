@@ -38,15 +38,12 @@ namespace FindFile
             files.AddRange(_files);
             _folders = FoldersHarvester(_directory.GetDirectories(), nameFileMask, ref files, ref tree).ToList();
 
+            tree.BeginUpdate();
             tree.Nodes.Add(new TreeNode(Name,
                 _files.Select(n => n.Node).
                 Union(_folders.
                 Select(n => n.Node)).ToArray()));
-
-            for(int i = 0; i<tree.Nodes.Count; i++)
-            {
-                tree.Nodes[i].Name = tree.Nodes[i].Text;
-            }
+            tree.EndUpdate();
         }
 
         public string Name
