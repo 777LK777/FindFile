@@ -57,14 +57,34 @@ namespace FindFile
 
 
 
-        private void ProgressBarUp()
+        private void SetProgressBar()
         {
             if (progressSearch.InvokeRequired)
             {
-                progressSearch.Invoke((Action)(() => { progressSearch.Value++; }));
+                progressSearch.Invoke((Action)(() =>
+                {
+                    if(progressSearch.Value < progressSearch.Maximum)
+                        progressSearch.Value++;
+                }));
             }
             else
                 progressSearch.Value++;
+        }
+        private void SetProgressBar(int value)
+        {
+            if (progressSearch.InvokeRequired)
+            {
+                progressSearch.Invoke((Action)(() =>
+                {
+                    if (value < progressSearch.Maximum)
+                        progressSearch.Value = value;
+                }));
+            }
+            else
+            {
+                if (value < progressSearch.Maximum)
+                    progressSearch.Value = value;
+            }
         }
 
         private void ChangeFileNowName(string fullName)
@@ -154,32 +174,20 @@ namespace FindFile
                 return fullPath;
         }
 
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle = 0x02000000;
-                return cp;
-            }
-        }
-
-
         private void FindStartStopBtn_Click(object sender, EventArgs e)
         {
             if (!_searchOver && keyWordTB.Text != "" && fileNameMaskTB.Text != "" && PathTB.Text != "Выберите папку...")
             {
+                if (_search != null)
+                {
+                    treeFolders.Nodes.Clear();
+                }
+
                 TimerPaint.Start();
                 _searchOver = true;
                 searcMenu.Visible = true;
 
-                FindStartStopBtn.Text = "Стоп";
-
-                Type treeType = typeof(TreeView);
-
-                PropertyInfo doubleBuffered = treeType.GetProperty("DoubleBuffered", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic);
-
-                doubleBuffered.SetValue(treeFolders, true);
+                FindStartStopBtn.Text = "Стоп";            
 
                 _search = new SearchResults(_folderPath, fileNameMaskTB.Text, ref treeFolders,
                     (object _sender, EventArgs _e) =>
@@ -191,7 +199,7 @@ namespace FindFile
 
                         ChangeFileNowName(GetNormalFileName(mf.FullName));
 
-                        Thread.Sleep(100);
+                        Thread.Sleep(50);
                     },
                     (object _sender, ReadFileEventArgs _e) =>
                     {
@@ -199,15 +207,19 @@ namespace FindFile
 
                         if (_e.MatchWasFound)
                         {
-                            MessageBox.Show(mf.FullName);
+                            Task.Run(() => 
+                            {
+                                MessageBox.Show(mf.FullName, "Найдено совпадение!", MessageBoxButtons.OK, MessageBoxIcon.Information);                                
+                            });                           
+
                             mf.BackgroundColor = Color.Green;
                         }
                         else
                             mf.BackgroundColor = Color.Red;
 
-                        ProgressBarUp();
+                        SetProgressBar();
 
-                        Thread.Sleep(100);
+                        Thread.Sleep(50);
                     });
 
                 progressSearch.Maximum = _search.Files.Count;
@@ -232,7 +244,6 @@ namespace FindFile
                 _searchOver = false;
                 searcMenu.Visible = false;
                 FindStartStopBtn.Text = "Поиск";
-                treeFolders = new TreeView();
             }
         }
 
@@ -253,6 +264,8 @@ namespace FindFile
 
         private void OnFindComplete(object sender, EventArgs e)
         {
+            _searchOver = false;
+            SetProgressBar(0);
             ChangeFileNowName(string.Empty);
             SearchMenuVisible(false);
             TimerPaint.Stop();
@@ -260,7 +273,12 @@ namespace FindFile
             SetFileNowLabel("Расположение файла");
 
             SetTextStartBtn("Поиск");
-            MessageBox.Show("GOTOVO!");
+            if (_search.Files.Where(f => f.IsMatch).Count() == 0)
+            {
+                MessageBox.Show("В файлах совпадений не найдено", "Поиск закончен", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+                MessageBox.Show($"Найдено совпадений в файлах: {_search.Files.Where(f => f.IsMatch).Count()}", "Поиск закончен", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void InFoolderBtn_Click(object sender, EventArgs e)
@@ -290,27 +308,5 @@ namespace FindFile
                 + _search.SpentTime.Seconds.ToString()
                 + ":" + _search.SpentTime.Milliseconds.ToString();
         }
-
-    }
-
-
-
-
-
-
-    class BufferedTreeView : TreeView
-    {
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            SendMessage(Handle, TVM_SETEXTENDEDSTYLE, (IntPtr)TVS_EX_DOUBLEBUFFER, (IntPtr)TVS_EX_DOUBLEBUFFER);
-            base.OnHandleCreated(e);
-        }
-
-        // Pinvoke:
-        private const int TVM_SETEXTENDEDSTYLE = 0x1100 + 44;
-        private const int TVM_GETEXTENDEDSTYLE = 0x1100 + 45;
-        private const int TVS_EX_DOUBLEBUFFER = 0x0004;
-        [DllImport("user32.dll")]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
     }
 }

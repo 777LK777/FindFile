@@ -29,6 +29,7 @@ namespace FindFileLib
         private readonly FileInfo _file;
         private readonly TreeNode _node;
         private bool _wasRead;
+        private bool _isMatch;
 
         public event EventHandler ReadStart;
         public event EventHandler<ReadFileEventArgs> ReadFinish;
@@ -38,6 +39,7 @@ namespace FindFileLib
             _file = file;
             _node = new TreeNode(_file.Name);
             _wasRead = false;
+            _isMatch = false;
         }
 
         public string Name
@@ -48,6 +50,11 @@ namespace FindFileLib
         public string FullName
         {
             get => _file.FullName;
+        }
+
+        public bool IsMatch
+        {
+            get => _isMatch;
         }
 
         public TreeNode Node
@@ -93,6 +100,8 @@ namespace FindFileLib
                 matchesFound = s.Contains(ks);
                 _wasRead = true;
             }
+
+            _isMatch = matchesFound;
 
             OnReadFinish(new ReadFileEventArgs(matchesFound));
         }

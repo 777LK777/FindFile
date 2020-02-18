@@ -135,7 +135,7 @@ namespace FindFileLib
         public void StopFind()
         {
             _stopFind = true;
-            _findTime.Reset();            
+            _findTime.Reset();
         }
     }
 }

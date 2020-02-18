@@ -36,14 +36,13 @@ namespace FindFile
             _directory = new DirectoryInfo(path);
             _files = MyFile.FileHarvester(_directory.GetFiles(), nameFileMask).ToList();
             files.AddRange(_files);
+
             _folders = FoldersHarvester(_directory.GetDirectories(), nameFileMask, ref files, ref tree).ToList();
 
-            tree.BeginUpdate();
             tree.Nodes.Add(new TreeNode(Name,
                 _files.Select(n => n.Node).
                 Union(_folders.
                 Select(n => n.Node)).ToArray()));
-            tree.EndUpdate();
         }
 
         public string Name
